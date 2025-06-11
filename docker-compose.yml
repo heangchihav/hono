@@ -1,9 +1,16 @@
 version: '3.8'
 
 services:
-  app:
+  frontend:
     build:
-      context: .
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - frontend_build:/app/dist
+
+  backend:
+    build:
+      context: ./backend
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
@@ -14,11 +21,14 @@ services:
       - DB_NAME=hono_db
       - DB_USER=postgres
       - DB_PASSWORD=postgres
+      - FRONTEND_BUILD_DIR=/frontend_dist
     depends_on:
       - postgres
+      - frontend
     volumes:
-      - .:/app
+      - ./backend:/app
       - /app/node_modules
+      - frontend_build:/frontend_dist
     command: bun run dev
 
   postgres:
@@ -34,3 +44,4 @@ services:
 
 volumes:
   postgres_data:
+  frontend_build:

@@ -11,6 +11,9 @@ export const envSchema = z.object({
   DB_NAME: z.string().default('hono_db'),
   DB_USER: z.string().default('postgres'),
   DB_PASSWORD: z.string().default('postgres'),
+  
+  // Frontend configuration
+  FRONTEND_BUILD_DIR: z.string().default('../../frontend/dist'),
 });
 
 // Parse and validate environment variables

@@ -1,27 +1,26 @@
 {
-  "name": "honojs2",
-  "module": "src/index.ts",
-  "type": "module",
+  "name": "hono",
   "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
-    "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir ./dist --target bun",
-    "db:generate": "drizzle-kit generate:pg",
-    "db:migrate": "bun run src/db/migrate.ts",
-    "db:studio": "drizzle-kit studio"
+    "dev:backend": "cd backend && bun run dev",
+    "dev:frontend": "cd frontend && bun run dev",
+    "dev": "concurrently \"bun run dev:backend\" \"bun run dev:frontend\"",
+    "start": "cd backend && bun run start",
+    "build:backend": "cd backend && bun run build",
+    "build:frontend": "cd frontend && bun run build",
+    "build": "bun run build:frontend && bun run build:backend",
+    "db:generate": "cd backend && bun run db:generate",
+    "db:migrate": "cd backend && bun run db:migrate",
+    "db:studio": "cd backend && bun run db:studio",
+    "docker:up": "docker-compose up",
+    "docker:build": "docker-compose build",
+    "docker:down": "docker-compose down"
   },
   "devDependencies": {
-    "@types/bun": "latest",
-    "@types/pg": "^8.15.4",
-    "drizzle-kit": "^0.31.1",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "drizzle-orm": "^0.44.2",
-    "hono": "^4.7.11",
-    "pg": "^8.16.0",
-    "postgres": "^3.4.7",
-    "zod": "^3.25.57"
+    "concurrently": "^8.2.2"
   }
 }
