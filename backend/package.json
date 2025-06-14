@@ -6,13 +6,13 @@
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "start": "bun run src/index.ts",
-    "build": "bun build src/index.ts --outdir ./dist --target bun",
     "db:generate": "drizzle-kit generate:pg",
     "db:migrate": "bun run src/db/migrate.ts",
     "db:studio": "drizzle-kit studio"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/node": "^24.0.1",
     "@types/pg": "^8.15.4",
     "drizzle-kit": "^0.31.1",
     "typescript": "^5.8.3"

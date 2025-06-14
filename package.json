@@ -2,17 +2,17 @@
   "name": "hono",
   "private": true,
   "workspaces": [
-    "frontend",
-    "backend"
+    "backend",
+    "frontend"
   ],
   "scripts": {
     "dev:backend": "cd backend && bun run dev",
     "dev:frontend": "cd frontend && bun run dev",
     "dev": "concurrently \"bun run dev:backend\" \"bun run dev:frontend\"",
     "start": "cd backend && bun run start",
-    "build:backend": "cd backend && bun run build",
+    "build:backend/admin": "cd backend/admin && bun run build",
     "build:frontend": "cd frontend && bun run build",
-    "build": "bun run build:frontend && bun run build:backend",
+    "build": "bun run build:backend/admin && bun run build:frontend",
     "db:generate": "cd backend && bun run db:generate",
     "db:migrate": "cd backend && bun run db:migrate",
     "db:studio": "cd backend && bun run db:studio",
@@ -21,6 +21,12 @@
     "docker:down": "docker-compose down"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "@types/bun": "latest"
+  },
+  "module": "index.ts",
+  "type": "module",
+  "peerDependencies": {
+    "typescript": "^5"
   }
 }

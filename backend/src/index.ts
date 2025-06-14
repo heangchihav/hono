@@ -3,8 +3,7 @@ import { logger } from 'hono/logger';
 import { cors } from 'hono/cors';
 import userRouter from './routes/userRoutes';
 import { errorHandler } from './middlewares/errorHandler';
-import { staticMiddleware } from './middlewares/staticMiddleware';
-import { env } from './config/env';
+import { customStaticMiddleware } from './middlewares/customStaticMiddleware';
 
 // Create Hono app
 const app = new Hono();
@@ -13,10 +12,20 @@ const app = new Hono();
 app.use('*', logger());
 app.use('*', cors());
 app.use('*', errorHandler);
-app.use('*', staticMiddleware({ root: env.FRONTEND_BUILD_DIR }));
 
-// Health check route
-app.get('/', (c) => c.json({ status: 'ok', message: 'API is running' }));
+// Health check route - moved to /api/health to avoid conflict with static files
+app.get('/api/health', (c) => c.json({ status: 'ok', message: 'API is running' }));
+
+// Serve static files from admin/dist directory
+// This needs to be after API routes to ensure API routes take precedence
+// In Docker, the admin files are mounted at /app/admin/dist
+// We need to use the absolute path that will work in the Docker container
+const adminPath = '/app/admin/dist';
+console.log(`Using admin path: ${adminPath}`);
+
+app.use('*', customStaticMiddleware({
+  root: adminPath
+}));
 
 // Mount routes
 app.route('/api/users', userRouter);

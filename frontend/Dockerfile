@@ -1,16 +1,16 @@
-FROM oven/bun:1.2 as build
+# Use a lightweight server for serving static files
+FROM nginx:alpine
 
-# Set working directory
-WORKDIR /app
+WORKDIR /usr/share/nginx/html
 
-# Install dependencies
-COPY package.json ./
-RUN bun install
+# Copy the pre-built dist folder
+COPY ./dist .
 
-# Copy source code
-COPY . .
+# Expose port 8080
+EXPOSE 8080
 
-# Build the application
-RUN bun run build
+# Configure nginx to use port 8080
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Output will be in /app/dist
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

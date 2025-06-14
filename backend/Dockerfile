@@ -1,17 +1,20 @@
-FROM oven/bun:1.2 as base
+# Use bun official image
+FROM jarredsumner/bun:edge
 
-# Set working directory
 WORKDIR /app
 
+# Copy backend source code
+COPY ./src ./src
+COPY ./package.json ./package.json
+# Use bun.lock instead of bun.lockb
+
 # Install dependencies
-COPY package.json ./
 RUN bun install
 
-# Copy source code
-COPY . .
+# Build backend (if needed)
+# For TS projects, you may want to add a build step here
+# If using Bun's native TS support, you can skip this
 
-# Build the application
-RUN bun run build
+EXPOSE 3000
 
-# Start the application
-CMD ["bun", "run", "start"]
+CMD ["bun", "run", "src/index.ts"]
