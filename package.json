@@ -9,7 +9,7 @@
     "dev:backend": "cd backend && bun run dev",
     "dev:frontend": "cd frontend && bun run dev",
     "dev": "concurrently \"bun run dev:backend\" \"bun run dev:frontend\"",
-    "start": "cd backend && bun run start",
+    "start": "bun run build && concurrently \"cd backend && bun run start\" \"cd frontend && bun run start\"",
     "build:backend/admin": "cd backend/admin && bun run build",
     "build:frontend": "cd frontend && bun run build",
     "build": "bun run build:backend/admin && bun run build:frontend",

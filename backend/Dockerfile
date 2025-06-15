@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copy backend source code
 COPY ./src ./src
+COPY ./admin/dist ./admin/dist
 COPY ./package.json ./package.json
 # Use bun.lock instead of bun.lockb
 

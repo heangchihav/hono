@@ -20,7 +20,7 @@ app.get('/api/health', (c) => c.json({ status: 'ok', message: 'API is running' }
 // This needs to be after API routes to ensure API routes take precedence
 // In Docker, the admin files are mounted at /app/admin/dist
 // We need to use the absolute path that will work in the Docker container
-const adminPath = '/app/admin/dist';
+const adminPath = './admin/dist';
 console.log(`Using admin path: ${adminPath}`);
 
 app.use('*', customStaticMiddleware({
